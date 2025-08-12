@@ -1,0 +1,13 @@
+flask
+pymongo 
+joblib
+jwt
+json
+flask_bcrypt
+flask_cors
+smtplib
+dotenv
+email
+pandas
+datetime
+functools

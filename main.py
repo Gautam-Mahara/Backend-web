@@ -7,7 +7,7 @@ import jwt
 import json
 from flask_cors import CORS
 import numpy as np
-from flask_cors import CORS
+# from flask_cors import CORS
 import smtplib
 from dotenv import load_dotenv
 from email.message import EmailMessage
