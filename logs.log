@@ -1,0 +1,31 @@
+2025-08-13 15:35:08,761 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://10.105.84.42:8080
+2025-08-13 15:35:08,761 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-13 15:35:08,770 - INFO -  * Restarting with stat
+2025-08-13 15:35:11,454 - WARNING -  * Debugger is active!
+2025-08-13 15:35:11,460 - INFO -  * Debugger PIN: 116-123-924
+2025-08-13 15:35:33,288 - INFO - 127.0.0.1 - - [13/Aug/2025 15:35:33] "OPTIONS /signup HTTP/1.1" 200 -
+2025-08-13 15:35:34,029 - INFO - 127.0.0.1 - - [13/Aug/2025 15:35:34] "[35m[1mPOST /signup HTTP/1.1[0m" 500 -
+2025-08-13 15:35:56,542 - INFO -  * Detected change in 'C:\\Users\\gauta\\OneDrive\\Desktop\\Mindwell2\\Backend\\main.py', reloading
+2025-08-13 15:35:57,118 - INFO -  * Restarting with stat
+2025-08-13 15:37:25,629 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://10.105.84.42:8080
+2025-08-13 15:37:25,629 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-13 15:37:25,630 - INFO -  * Restarting with stat
+2025-08-13 15:37:28,291 - WARNING -  * Debugger is active!
+2025-08-13 15:37:28,297 - INFO -  * Debugger PIN: 116-123-924
+2025-08-13 15:37:32,198 - INFO - 127.0.0.1 - - [13/Aug/2025 15:37:32] "OPTIONS /signup HTTP/1.1" 200 -
+2025-08-13 15:37:32,918 - ERROR - Error in signup route: module 'logging' has no attribute 'log_info'
+2025-08-13 15:37:32,919 - INFO - 127.0.0.1 - - [13/Aug/2025 15:37:32] "[35m[1mPOST /signup HTTP/1.1[0m" 500 -
+2025-08-13 15:37:52,529 - INFO -  * Detected change in 'C:\\Users\\gauta\\OneDrive\\Desktop\\Mindwell2\\Backend\\main.py', reloading
+2025-08-13 15:37:53,162 - INFO -  * Restarting with stat
+2025-08-13 15:37:55,853 - WARNING -  * Debugger is active!
+2025-08-13 15:37:55,858 - INFO -  * Debugger PIN: 116-123-924
+2025-08-13 15:38:00,775 - INFO - 127.0.0.1 - - [13/Aug/2025 15:38:00] "OPTIONS /signup HTTP/1.1" 200 -
+2025-08-13 15:38:01,511 - INFO - Generated OTP: 765525
+2025-08-13 15:38:05,125 - INFO - OTP sent to gautam.gs712@gmail.com: 765525
+2025-08-13 15:38:05,125 - INFO - 127.0.0.1 - - [13/Aug/2025 15:38:05] "[35m[1mPOST /signup HTTP/1.1[0m" 201 -

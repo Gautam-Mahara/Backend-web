@@ -14,6 +14,8 @@ from email.message import EmailMessage
 import pandas as pd
 from datetime import datetime, timedelta
 from functools import wraps
+import logging
+
 
 
 
@@ -34,6 +36,12 @@ otp_collection = db['OTP']
 
 otp_collection = db['otp_verifications']
 
+logging.basicConfig(
+        filename='logs.log',
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
+
 # One-time TTL index setup (skip on subsequent runs)
 try:
     otp_collection.create_index('otpExpiryAt', expireAfterSeconds=0)
@@ -50,6 +58,7 @@ def testing():
         
     except Exception as e:
         print(e)
+        logging.error(f"Error in testing route: {str(e)}")
         return jsonify({'error': str(e)}), 500
     
 @app.route("/signup", methods=['POST'])
@@ -70,14 +79,17 @@ def signup():
 
         if existing:
             print("Email already registered")
+            logging.error(f"Email already registered: {email}")
             return jsonify({'message': "Already registered"}), 409
         elif existingusername:
             print("Username already taken")
+            logging.error(f"Username already taken: {username}")
             return jsonify({'message': "Username not available"}), 409
         else:
             email_exists = otp_collection.find_one({'email': email})
             if email_exists:
                 print("Email already exists in OTP collection")
+                logging.error(f"Email already exists in OTP collection: {email}")
                 otp_collection.delete_one({'email': email})
             otp = otp_generator()
             expiry = datetime.utcnow() + timedelta(minutes=2)
@@ -94,7 +106,8 @@ def signup():
             }
             send_otp(email, otp)
             otp_collection.insert_one(user)
-
+            print(f"OTP sent to {email}: {otp}")
+            logging.info(f"OTP sent to {email}: {otp}")
             return jsonify({
                 'status': 'success',
                 'message': 'Please verify OTP.',
@@ -103,10 +116,12 @@ def signup():
 
     except Exception as e:
         print("Signup error:", e)
+        logging.error(f"Error in signup route: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 def otp_generator():
     otp = np.random.randint(100000, 999999)
+    logging.info(f"Generated OTP: {otp}")
     return otp
 
 def complete(email):
@@ -120,9 +135,11 @@ def complete(email):
             }
         collection.insert_one(new_entry)
         otp_collection.delete_one({'email': email})
+        logging.info(f"User {email} created successfully.")
         return jsonify({'message': 'Account created successfully', 'email': email})
     except Exception as e:
         print(e)
+        logging.error(f"Error completing signup for {email}: {str(e)}")
         return jsonify({'error': str(e)}), 500
     
 @app.route("/signin", methods=['POST'])
@@ -135,10 +152,13 @@ def signin():
         user = collection.find_one({'email': email})
         if user and bcrypt.check_password_hash(user['password'], password):
             token = jwt.encode({'email': email}, secret_key, algorithm='HS256')
+            logging.info(f"User {email} signed in successfully.")
             return jsonify({'email': email,'token': token})
         else:
+            logging.error(f"Sign in failed for {email}: User not found or incorrect password.")
             return jsonify({'message': 'User not found or incorrect password'})
     except Exception as e:
+        logging.error(f"Error in signin route: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/forget',methods=['POST'])
