@@ -1,13 +1,8 @@
 flask
-pymongo 
+pymongo
 joblib
-jwt
-json
+PyJWT
 flask_bcrypt
 flask_cors
-smtplib
-dotenv
-email
+python-dotenv
 pandas
-datetime
-functools
