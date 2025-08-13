@@ -6,5 +6,5 @@ flask_bcrypt
 flask_cors
 python-dotenv
 pandas
-sklearn
+scikit-learn
 numpy
