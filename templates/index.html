@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindWell API Documentation</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4ade80;
+            --warning: #facc15;
+            --danger: #f87171;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--primary);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 3rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid var(--primary);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card h3 .method {
+            font-size: 0.9rem;
+            background: var(--primary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+        
+        .endpoint {
+            background: #f0f4ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 1rem;
+            word-break: break-all;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin: 3rem 0 2rem;
+            color: var(--secondary);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+        
+        .request-response {
+            margin: 20px 0;
+        }
+        
+        .request-response h4 {
+            margin-bottom: 10px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .param-table th {
+            background: var(--primary);
+            color: white;
+            text-align: left;
+            padding: 12px 15px;
+        }
+        
+        .param-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .param-table tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        
+        .question-list {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            margin: 25px 0;
+        }
+        
+        .question-list li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .question-list li:before {
+            content: '•';
+            position: absolute;
+            left: 10px;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .prediction-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 3rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .prediction-card h3 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        
+        .note {
+            background: #fffbeb;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">🧠</div>
+                <h1>MindWell API Documentation</h1>
+            </div>
+            <p class="subtitle">Comprehensive guide to integrating with MindWell's mental health management platform</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <h2 class="section-title">Authentication Endpoints</h2>
+        <div class="cards-container">
+            <!-- Login Card -->
+            <div class="card">
+                <h3><span class="method">POST</span> Login</h3>
+                <p>Authenticate user with email and password</p>
+                <div class="endpoint">/login</div>
+                
+                <div class="request-response">
+                    <h4>Request</h4>
+                    <pre>{
+  "email": "user@example.com",
+  "password": "securepassword123"
+}</pre>
+                </div>
+                
+                <div class="request-response">
+                    <h4>Response (Success)</h4>
+                    <pre>{
+  "status": "success",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "email": "user@example.com"
+}</pre>
+                </div>
+            </div>
+            
+            <!-- Signup Card -->
+            <div class="card">
+                <h3><span class="method">POST</span> Signup</h3>
+                <p>Create a new user account</p>
+                <div class="endpoint">/signup</div>
+                
+                <div class="request-response">
+                    <h4>Request</h4>
+                    <pre>{
+  "name": "Jane Smith",
+  "email": "jane@example.com",
+  "password": "strongpassword!123"
+  "username": "janesmith"
+}</pre>
+                </div>
+                
+                <div class="request-response">
+                    <h4>Response (Success)</h4>
+                    <pre>{
+  "status": "success",
+  "message": "Please verify OTP.",
+  "email": "demo@email.com"
+}</pre>
+                </div>
+            </div>
+            
+            <!-- OTP Verification Card -->
+            <div class="card">
+                <h3><span class="method">POST</span> Verify OTP</h3>
+                <p>Verify the OTP sent to user's email</p>
+                <div class="endpoint">/verify</div>
+                
+                <div class="request-response">
+                    <h4>Request</h4>
+                    <pre>{
+  "email": "user@gmail.com",
+  "otp": "784532"
+}</pre>
+                </div>
+                
+                <div class="request-response">
+                    <h4>Response (Success)
+
+                    </h4>
+                    <pre>{
+  "status": "success",
+  "message": "OTP verified successfully"
+}</pre>
+                </div>
+            </div>
+            
+            <!-- Complete Signup Card -->
+            <div class="card">
+                <h3><span class="method">POST</span> Complete Signup</h3>
+                <p>Finalize user registration after OTP verification</p>
+                <div class="endpoint">/complete-signup</div>
+                
+                <div class="request-response">
+                    <h4>Request</h4>
+                    <pre>{
+  "email": "user@email.com",
+  "OTP":"784532"
+}</pre>
+                </div>
+                
+                <div class="request-response">
+                    <h4>Response (Success)</h4>
+                    <pre>{
+  "status": "success",
+  "message": "Registration completed",
+  "token": "fwewrqfr"
+}</pre>
+                </div>
+            </div>
+            
+            <!-- Update Profile Card -->
+            <div class="card">
+                <h3><span class="method">PUT</span> Update Profile / Forget Password</h3>
+                <p>Update user profile information</p>
+                <div class="endpoint">/update-password</div>
+                
+                <div class="request-response">
+                    <h4>Request (Authenticated)</h4>
+                    <pre>{
+  "emai": "Jane Smith Updated",
+  "password": "newsecurepassword123",
+  "confirm_password": "newsecurepassword123",
+  "token": "frgrwerewg"
+
+}</pre>
+                </div>
+                
+                <div class="request-response">
+                    <h4>Response (Success)</h4>
+                    <pre>{
+  "status": "success",
+  "message": "Update successful"
+}</pre>
+                </div>
+            </div>
+            
+            <!-- Delete Account Card -->
+            <div class="card">
+                <h3><span class="method">DELETE</span> Delete Account</h3>
+                <p>Permanently delete user account</p>
+                <div class="endpoint">/delete</div>
+                
+                <div class="request-response">
+                    <h4>Request (Authenticated)</h4>
+                    <pre>{
+  "email": "user@gmail.com",
+  "password": "strongpassword!123"
+}</pre>
+                </div>
+                
+                <div class="request-response">
+                    <h4>Response (Success)</h4>
+                    <pre>{
+  "status": "success",
+  "message": "Account deleted successfully"
+}</pre>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">Prediction Endpoint</h2>
+        
+        <div class="prediction-card">
+            <h3><span class="method">POST</span> Mental Health Prediction</h3>
+            <p>Predict mental health condition based on survey responses</p>
+            <div class="endpoint">/predict</div>
+            
+            <div class="note">
+                <strong>Note:</strong> This endpoint expects an array of exactly 23 integers representing answers to the following questions in order.
+            </div>
+            
+            <h4>Survey Questions</h4>
+            <ol class="question-list">
+                <li>What is your age? (Integer)</li>
+                <li>What is your gender? (Male=1, Female=0, Other=15)</li>
+                <li>What's your country? (Encoded as integer - see reference)</li>
+                <li>Are you self-employed? (Yes=1, No=0)</li>
+                <li>Do you have a family history of mental illness? (Yes=1, No=0)</li>
+                <li>How often does your mental health interfere with work? (1-5 scale)</li>
+                <li>How many employees are in your company? (Encoded value)</li>
+                <li>Do you work remotely? (Yes=1, No=0)</li>
+                <li>Do you work in a tech company? (Yes=1, No=0)</li>
+                <li>Does your employer provide mental health benefits? (Yes=1, No=0, Don't know=2)</li>
+                <li>Are care options available from your employer? (Yes=1, No=0)</li>
+                <li>Does your employer have a wellness program? (Yes=1, No=0)</li>
+                <li>Is help-seeking encouraged at your workplace? (Yes=1, No=0)</li>
+                <li>Is anonymity maintained if you seek help? (Yes=1, No=0)</li>
+                <li>How easy is it to take leave for mental health reasons? (1-5 scale)</li>
+                <li>Are there negative consequences of disclosing a mental health issue? (Yes=1, No=0)</li>
+                <li>Are there negative consequences of disclosing a physical health issue? (Yes=1, No=0)</li>
+                <li>Are your coworkers supportive of mental health issues? (1-5 scale)</li>
+                <li>Is your supervisor supportive of mental health issues? (1-5 scale)</li>
+                <li>Would you discuss a mental health issue in an interview? (Yes=1, No=0)</li>
+                <li>Would you discuss a physical health issue in an interview? (Yes=1, No=0)</li>
+                <li>Do you think mental and physical health are treated equally? (Yes=1, No=0)</li>
+                <li>Have you ever faced consequences for mental health issues at work? (Yes=1, No=0)</li>
+            </ol>
+            
+            <div class="request-response">
+                <h4>Request (Authenticated)</h4>
+                <pre>{
+  "responses": [28, 1, 15, 0, 1, 3, 4, 1, 1, 1, 1, 0, 1, 1, 2, 0, 0, 4, 3, 0, 1, 0, 0]
+}</pre>
+            </div>
+            
+            <div class="request-response">
+                <h4>Response (Success)</h4>
+                <pre>{
+  "status": "success",
+  "prediction": "moderate",
+  "confidence": 0.78,
+  "recommendations": [
+    "Consider talking to a mental health professional",
+    "Try mindfulness meditation exercises",
+    "Schedule regular breaks during work"
+  ]
+}</pre>
+            </div>
+        </div>
+        
+        <h2 class="section-title">Additional Endpoints</h2>
+        
+        <div class="cards-container">
+            <!-- Activities Card -->
+            <div class="card">
+                <h3><span class="method">GET</span> Activities</h3>
+                <p>Get list of wellness activities</p>
+                <div class="endpoint">/api/v1/activities</div>
+                
+                <div class="request-response">
+                    <h4>Response (Success)</h4>
+                    <pre>{
+  "status": "success",
+  "activities": [
+    {
+      "id": "act_001",
+      "title": "Morning Meditation",
+      "duration": 10,
+      "category": "Mindfulness"
+    },
+    {
+      "id": "act_002",
+      "title": "Gratitude Journaling",
+      "duration": 5,
+      "category": "Reflection"
+    }
+  ]
+}</pre>
+                </div>
+            </div>
+            
+            <!-- Meditations Card -->
+            <div class="card">
+                <h3><span class="method">GET</span> Meditations</h3>
+                <p>Get list of guided meditations</p>
+                <div class="endpoint">/api/v1/meditations</div>
+                
+                <div class="request-response">
+                    <h4>Response (Success)</h4>
+                    <pre>{
+  "status": "success",
+  "meditations": [
+    {
+      "id": "med_001",
+      "title": "Deep Breathing",
+      "duration": 5,
+      "level": "Beginner"
+    },
+    {
+      "id": "med_002",
+      "title": "Body Scan",
+      "duration": 15,
+      "level": "Intermediate"
+    }
+  ]
+}</pre>
+                </div>
+            </div>
+            
+            <!-- Analytics Card -->
+            <div class="card">
+                <h3><span class="method">GET</span> Analytics</h3>
+                <p>Get user's wellness analytics</p>
+                <div class="endpoint">/api/v1/analytics</div>
+                
+                <div class="request-response">
+                    <h4>Response (Success)</h4>
+                    <pre>{
+  "status": "success",
+  "analytics": {
+    "mood_trend": [3, 4, 5, 4, 5, 6, 7],
+    "activity_completion": 75,
+    "stress_level": "medium",
+    "sleep_quality": "good"
+  }
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2025 MindWell Mental Health Platform. All rights reserved.</p>
+            <p>For support, contact api-support@mindwell.com</p>
+        </div>
+    </footer>
+</body>
+</html>
